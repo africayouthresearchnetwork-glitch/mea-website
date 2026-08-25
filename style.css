@@ -894,3 +894,120 @@ footer {
     }
 
 }
+/* =========================
+   UNIVERSITY ATTRIBUTION
+========================= */
+
+.academic-context {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 50px;
+
+    margin-bottom: 80px;
+    padding: 35px 40px;
+
+    border-left: 4px solid #0f766e;
+}
+
+.academic-context-text {
+    max-width: 700px;
+}
+
+.academic-context h3 {
+    font-size: 1.5rem;
+    margin: 10px 0 15px;
+}
+
+.academic-context p:last-child {
+    line-height: 1.7;
+}
+
+.university-logo img {
+    width: 180px;
+    height: auto;
+    display: block;
+}
+
+
+/* MOBILE */
+
+@media (max-width: 800px) {
+
+    .academic-context {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 30px;
+        padding: 25px;
+    }
+
+    .university-logo img {
+        width: 150px;
+    }
+
+}
+/* =========================
+   PROJECT RESEARCH TEAM
+========================= */
+
+.project-team {
+    margin-top: 50px;
+    padding-top: 35px;
+    border-top: 1px solid #ddd;
+}
+
+.team-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 25px 50px;
+    margin-top: 25px;
+}
+
+.team-person h3 {
+    font-size: 1.05rem;
+    margin-bottom: 5px;
+}
+
+.team-person p {
+    margin: 0;
+    line-height: 1.5;
+}
+
+
+/* MOBILE */
+
+@media (max-width: 600px) {
+
+    .team-list {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+}
+.team-person h3 a,
+.supervisor-person h3 a {
+    color: inherit;
+    text-decoration: none;
+    transition: opacity 0.2s ease;
+}
+
+.team-person h3 a:hover,
+.supervisor-person h3 a:hover {
+    opacity: 0.65;
+}
+/* =========================
+   PROJECT IMAGE
+========================= */
+
+.project-image {
+    margin: 45px auto;
+    max-width: 750px;
+}
+
+.project-image img {
+    width: 100%;
+    height: 320px;
+    object-fit: cover;
+    display: block;
+    border-radius: 12px;
+}
