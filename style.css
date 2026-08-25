@@ -707,3 +707,190 @@ footer {
     height: auto;
     display: block;
 }
+/* =========================
+   RESEARCH PROJECT LINKS
+========================= */
+
+.research-link {
+    display: inline-block;
+    margin-top: 25px;
+    color: #0f766e;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.research-link:hover {
+    opacity: 0.75;
+}
+/* =========================
+   PROJECT PAGES
+========================= */
+
+.project-page {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 140px 8% 100px;
+}
+
+
+/* PROJECT HEADER */
+
+.project-header {
+    max-width: 850px;
+    margin-bottom: 70px;
+}
+
+.project-header h1 {
+    font-size: clamp(2.3rem, 5vw, 4.5rem);
+    line-height: 1.1;
+    margin: 15px 0 25px;
+}
+
+.project-intro {
+    font-size: 1.2rem;
+    line-height: 1.7;
+    max-width: 750px;
+}
+
+
+/* PROJECT LAYOUT */
+
+.project-details {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 80px;
+    align-items: start;
+}
+
+
+/* SIDEBAR */
+
+.project-sidebar {
+    position: sticky;
+    top: 120px;
+}
+
+.project-info {
+    padding: 20px 0;
+    border-bottom: 1px solid #ddd;
+}
+
+.project-info h3 {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+}
+
+.project-info p {
+    margin: 0;
+    line-height: 1.5;
+}
+
+
+/* PROJECT CONTENT */
+
+.project-content {
+    max-width: 750px;
+}
+
+.project-content h2 {
+    font-size: 1.8rem;
+    margin-top: 0;
+    margin-bottom: 20px;
+}
+
+.project-content h2:not(:first-child) {
+    margin-top: 60px;
+}
+
+.project-content p {
+    line-height: 1.8;
+    margin-bottom: 20px;
+}
+
+
+/* PROJECT TAGS */
+
+.project-tags {
+    margin-top: 25px;
+}
+
+
+/* MOBILE */
+
+@media (max-width: 800px) {
+
+    .project-page {
+        padding: 120px 6% 70px;
+    }
+
+    .project-details {
+        grid-template-columns: 1fr;
+        gap: 50px;
+    }
+
+    .project-sidebar {
+        position: static;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0 30px;
+    }
+
+}
+/* =========================
+   PROJECT IMAGE
+========================= */
+
+.project-image {
+    width: 100%;
+    margin-bottom: 60px;
+    overflow: hidden;
+    border-radius: 4px;
+}
+
+.project-image img {
+    width: 100%;
+    height: 500px;
+    object-fit: cover;
+    display: block;
+}
+
+
+/* =========================
+   ACADEMIC CONTEXT
+========================= */
+
+.academic-context {
+    margin-bottom: 80px;
+    padding: 35px 40px;
+    border-left: 4px solid #0f766e;
+}
+
+.academic-context-text {
+    max-width: 700px;
+}
+
+.academic-context h3 {
+    font-size: 1.5rem;
+    margin: 10px 0 15px;
+}
+
+.academic-context p:last-child {
+    line-height: 1.7;
+}
+
+
+/* MOBILE */
+
+@media (max-width: 800px) {
+
+    .project-image img {
+        height: 300px;
+    }
+
+    .academic-context {
+        padding: 25px;
+    }
+
+}
