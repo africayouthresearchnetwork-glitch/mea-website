@@ -3,36 +3,32 @@
    Afro-Modern Editorial Website
    ========================================================= */
 
+/* NOTE: for best performance, load fonts with <link> tags in your HTML <head>
+   instead of @import (this is only a fallback). */
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display:ital@0;1&display=swap');
+
 /* -------------------------
    01. BRAND SYSTEM
 ------------------------- */
-
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display:ital@0;1&display=swap');
-
 :root {
-    /* Core */
     --cream: #F7F1E7;
     --cream-dark: #EDE1D0;
     --white: #FFFDF8;
 
-    /* Browns */
     --brown: #3B2922;
     --brown-soft: #5A4035;
     --brown-light: #76594A;
 
-    /* Signature */
     --terracotta: #A12910;
     --terracotta-dark: #7F210D;
     --terracotta-light: #C85632;
 
-    /* Accents */
     --ochre: #E3962F;
     --yellow: #F2C94C;
     --green: #859543;
     --green-dark: #52652C;
     --teal: #2D8888;
 
-    /* Utility */
     --border: rgba(59, 41, 34, 0.15);
     --shadow: 0 20px 50px rgba(59, 41, 34, 0.12);
 
@@ -44,14 +40,17 @@
     --radius-large: 32px;
 
     --max-width: 1240px;
+    --header-height: 82px;
+    --gutter: 24px;
+    --ease: cubic-bezier(.2, .7, .2, 1);
 }
 
-
 /* -------------------------
-   02. RESET
+   02. RESET & BASE
 ------------------------- */
-
-* {
+*,
+*::before,
+*::after {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -59,6 +58,8 @@
 
 html {
     scroll-behavior: smooth;
+    scroll-padding-top: var(--header-height);
+    -webkit-text-size-adjust: 100%;
 }
 
 body {
@@ -67,9 +68,15 @@ body {
     color: var(--brown);
     line-height: 1.65;
     overflow-x: hidden;
+    overflow-x: clip; /* keeps position: sticky working */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
 }
 
-img {
+img,
+svg,
+video {
     max-width: 100%;
     display: block;
 }
@@ -79,11 +86,16 @@ a {
     text-decoration: none;
 }
 
+ul {
+    list-style: none;
+}
+
 button,
 input,
 textarea,
 select {
     font: inherit;
+    color: inherit;
 }
 
 ::selection {
@@ -91,21 +103,41 @@ select {
     color: var(--brown);
 }
 
+/* Visible keyboard focus */
+:focus-visible {
+    outline: 3px solid var(--terracotta);
+    outline-offset: 4px;
+    border-radius: 2px;
+}
+
+#services :focus-visible,
+#contact :focus-visible,
+footer :focus-visible,
+.project-header :focus-visible {
+    outline-color: var(--yellow);
+}
 
 /* -------------------------
    03. GLOBAL TYPOGRAPHY
 ------------------------- */
-
 h1,
 h2,
 h3,
 h4 {
     color: var(--brown);
     line-height: 1.05;
+    font-weight: 400; /* DM Serif Display has one weight; avoids faux-bold */
+    text-wrap: balance;
+}
+
+h4 {
+    font-family: var(--sans);
+    font-weight: 700;
 }
 
 p {
     color: var(--brown-soft);
+    text-wrap: pretty;
 }
 
 .eyebrow {
@@ -126,20 +158,19 @@ p {
     width: 28px;
     height: 3px;
     background: var(--ochre);
-    display: inline-block;
+    flex-shrink: 0;
 }
-
 
 /* -------------------------
    04. HEADER
 ------------------------- */
-
 header {
     position: sticky;
     top: 0;
     z-index: 1000;
 
     background: rgba(247, 241, 231, 0.94);
+    -webkit-backdrop-filter: blur(14px);
     backdrop-filter: blur(14px);
 
     border-bottom: 1px solid var(--border);
@@ -147,7 +178,7 @@ header {
 
 nav {
     width: min(100% - 48px, var(--max-width));
-    min-height: 82px;
+    min-height: var(--header-height);
     margin: auto;
 
     display: flex;
@@ -171,11 +202,13 @@ nav ul {
     display: flex;
     align-items: center;
     gap: 32px;
-    list-style: none;
 }
 
 nav ul li a {
     position: relative;
+    display: inline-block;
+    padding: 6px 0;
+    white-space: nowrap;
 
     font-size: 0.82rem;
     font-weight: 600;
@@ -188,7 +221,7 @@ nav ul li a::after {
     content: "";
     position: absolute;
     left: 0;
-    bottom: -7px;
+    bottom: 0;
 
     width: 0;
     height: 2px;
@@ -198,27 +231,31 @@ nav ul li a::after {
     transition: width 0.3s ease;
 }
 
-nav ul li a:hover {
+nav ul li a:hover,
+nav ul li a[aria-current="page"],
+nav ul li a.active {
     color: var(--terracotta);
 }
 
-nav ul li a:hover::after {
+nav ul li a:hover::after,
+nav ul li a[aria-current="page"]::after,
+nav ul li a.active::after {
     width: 100%;
 }
-
 
 /* -------------------------
    05. HERO
 ------------------------- */
-
 #home {
     position: relative;
-    min-height: calc(100vh - 82px);
+    min-height: calc(100vh - var(--header-height));
+    min-height: calc(100svh - var(--header-height));
 
     width: min(100% - 48px, var(--max-width));
     margin: auto;
 
-    padding: 90px 0 55px;
+    /* extra bottom padding leaves room for the ticker */
+    padding: 90px 0 110px;
 
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(390px, 0.85fr);
@@ -227,7 +264,6 @@ nav ul li a:hover::after {
 }
 
 /* subtle background motif */
-
 #home::before {
     content: "";
     position: absolute;
@@ -238,7 +274,7 @@ nav ul li a:hover::after {
     right: -220px;
     top: 50px;
 
-    border: 1px solid rgba(133, 149, 67, 0.25);
+    border: 1px solid rgba(133, 149, 67, 0.3);
     border-radius: 50%;
 
     pointer-events: none;
@@ -246,13 +282,13 @@ nav ul li a:hover::after {
 
 #home h2 {
     max-width: 780px;
-
     margin: 22px 0;
 
     font-family: var(--serif);
-    font-size: clamp(4rem, 7vw, 7.8rem);
+    font-size: clamp(3.5rem, 7vw, 7.8rem);
     font-weight: 400;
     letter-spacing: -0.045em;
+    line-height: 0.98;
 
     color: var(--brown);
 }
@@ -265,14 +301,11 @@ nav ul li a:hover::after {
 
 #home p {
     max-width: 570px;
-
     font-size: 1.08rem;
     line-height: 1.8;
 }
 
-
-/* Hero buttons */
-
+/* Buttons */
 .hero-button,
 .primary-button,
 .secondary-button {
@@ -282,19 +315,22 @@ nav ul li a:hover::after {
     gap: 12px;
 
     min-height: 52px;
-    padding: 0 25px;
+    padding: 0 28px;
 
     border-radius: 999px;
 
     font-size: 0.82rem;
     font-weight: 700;
     letter-spacing: 0.03em;
+    line-height: 1;
+    text-align: center;
 
     cursor: pointer;
 
     transition:
-        transform 0.3s ease,
+        transform 0.3s var(--ease),
         background 0.3s ease,
+        border-color 0.3s ease,
         color 0.3s ease,
         box-shadow 0.3s ease;
 }
@@ -326,6 +362,12 @@ nav ul li a:hover::after {
     transform: translateY(-4px);
 }
 
+.hero-button:active,
+.primary-button:active,
+.secondary-button:active {
+    transform: translateY(-1px);
+}
+
 .hero-actions {
     display: flex;
     flex-wrap: wrap;
@@ -333,11 +375,7 @@ nav ul li a:hover::after {
     margin-top: 34px;
 }
 
-
-/* -------------------------
-   HERO IMAGE AREA
-------------------------- */
-
+/* Hero image area */
 .hero-visual {
     position: relative;
     min-height: 600px;
@@ -352,33 +390,20 @@ nav ul li a:hover::after {
 
     width: min(100%, 500px);
     aspect-ratio: 4 / 5;
-
-    overflow: visible;
 }
 
 /* Terracotta offset block */
-
 .hero-image-wrap::before {
     content: "";
-
     position: absolute;
-
-    width: 100%;
-    height: 100%;
-
-    left: -22px;
-    top: 22px;
-
+    inset: 22px 22px -22px -22px;
     background: var(--terracotta);
-
     z-index: 0;
 }
 
-/* Green offset shape */
-
+/* Green offset circle */
 .hero-image-wrap::after {
     content: "";
-
     position: absolute;
 
     width: 95px;
@@ -388,10 +413,9 @@ nav ul li a:hover::after {
     bottom: -30px;
 
     background: var(--green);
-
     border-radius: 50%;
 
-    z-index: 0;
+    z-index: 3;
 }
 
 .hero-image,
@@ -406,22 +430,19 @@ nav ul li a:hover::after {
     z-index: 2;
 
     background: var(--cream-dark);
-
     border: 10px solid var(--brown);
 
     transition:
-        transform 0.6s cubic-bezier(.2,.7,.2,1),
+        transform 0.6s var(--ease),
         filter 0.6s ease;
 }
 
 .hero-image-wrap:hover .hero-image {
-    transform: translate(-8px, -8px) scale(1.025);
+    transform: translate(-8px, -8px) scale(1.02);
     filter: saturate(1.08);
 }
 
-
-/* Placeholder if image hasn't been added yet */
-
+/* Placeholder until a real image is added */
 .hero-image-placeholder {
     display: flex;
     align-items: flex-end;
@@ -451,9 +472,7 @@ nav ul li a:hover::after {
     letter-spacing: 0.14em;
 }
 
-
-/* Hero decorative label */
-
+/* Decorative stamp */
 .hero-stamp {
     position: absolute;
 
@@ -482,61 +501,41 @@ nav ul li a:hover::after {
     line-height: 1.5;
 
     transform: rotate(-10deg);
-
     box-shadow: 0 12px 30px rgba(59, 41, 34, 0.15);
 
     animation: gentleFloat 5s ease-in-out infinite;
 }
 
-
-/* Yellow small accent */
-
 .hero-accent-yellow {
     position: absolute;
-
     width: 35px;
     height: 35px;
-
     top: 40px;
     right: 20px;
-
     background: var(--yellow);
-
     transform: rotate(45deg);
-
     z-index: 4;
 }
-
-
-/* Green small accent */
 
 .hero-accent-green {
     position: absolute;
-
     width: 20px;
     height: 100px;
-
     left: -50px;
     top: 120px;
-
     background: var(--green);
-
     z-index: 4;
 }
 
-
-/* -------------------------
-   HERO TICKER
-------------------------- */
-
+/* Hero ticker (repeat the items twice in your HTML so the -50% loop is seamless) */
 .hero-ticker {
     position: absolute;
 
-    left: 0;
+    left: 50%;
     bottom: 0;
 
     width: 100vw;
-    margin-left: calc((100vw - min(100vw - 48px, var(--max-width))) / -2);
+    transform: translateX(-50%);
 
     overflow: hidden;
 
@@ -551,8 +550,14 @@ nav ul li a:hover::after {
 .hero-ticker-track {
     display: inline-flex;
     gap: 45px;
+    padding-left: 45px;
+    will-change: transform;
 
-    animation: ticker 22s linear infinite;
+    animation: ticker 28s linear infinite;
+}
+
+.hero-ticker:hover .hero-ticker-track {
+    animation-play-state: paused;
 }
 
 .hero-ticker span {
@@ -566,16 +571,14 @@ nav ul li a:hover::after {
 }
 
 .hero-ticker span:nth-child(4n) {
-    color: var(--green);
+    color: #A9BB64; /* lighter green so it reads on dark brown */
 }
-
 
 /* -------------------------
    06. SHARED SECTIONS
 ------------------------- */
-
 section:not(#home) {
-    padding: 110px 24px;
+    padding: 110px var(--gutter);
 }
 
 .section-heading {
@@ -585,28 +588,23 @@ section:not(#home) {
 
 .section-heading h2 {
     max-width: 850px;
-
     margin-top: 18px;
 
     font-family: var(--serif);
-    font-size: clamp(3rem, 6vw, 6rem);
+    font-size: clamp(2.8rem, 6vw, 6rem);
     font-weight: 400;
-
     letter-spacing: -0.04em;
 }
 
 .section-heading > p:not(.eyebrow) {
     max-width: 650px;
     margin-top: 25px;
-
-    font-size: 1rem;
+    font-size: 1.02rem;
 }
-
 
 /* -------------------------
    07. SERVICES
 ------------------------- */
-
 #services {
     background: var(--brown);
     color: var(--cream);
@@ -632,51 +630,51 @@ section:not(#home) {
     background: rgba(247, 241, 231, 0.2);
 }
 
+/* if there's an odd number of cards, the last one spans the full row */
+.service-card:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+}
+
 .service-card {
     position: relative;
 
     min-height: 280px;
-
-    padding: 42px;
+    padding: 42px 90px 42px 42px;
 
     background: var(--brown);
-
-    border: none;
-
     overflow: hidden;
 
     transition:
         background 0.4s ease,
-        transform 0.4s ease;
+        transform 0.4s var(--ease);
 }
 
 .service-card::before {
     content: attr(data-number);
 
     position: absolute;
-
     right: 28px;
     top: 18px;
 
     font-family: var(--serif);
     font-size: 5rem;
+    line-height: 1;
 
     color: rgba(247, 241, 231, 0.08);
+    pointer-events: none;
 }
 
 .service-card::after {
     content: "↗";
 
     position: absolute;
-
     right: 30px;
     bottom: 25px;
 
     font-size: 1.6rem;
-
     color: var(--ochre);
 
-    transition: transform 0.3s ease;
+    transition: transform 0.3s var(--ease), color 0.3s ease;
 }
 
 .service-card:hover {
@@ -686,6 +684,7 @@ section:not(#home) {
 
 .service-card:hover::after {
     transform: translate(5px, -5px);
+    color: var(--yellow);
 }
 
 .service-card h3 {
@@ -693,11 +692,10 @@ section:not(#home) {
     z-index: 2;
 
     max-width: 500px;
-
     margin-bottom: 18px;
 
     font-family: var(--serif);
-    font-size: 2.4rem;
+    font-size: clamp(1.9rem, 3vw, 2.4rem);
     font-weight: 400;
 
     color: var(--cream);
@@ -708,15 +706,12 @@ section:not(#home) {
     z-index: 2;
 
     max-width: 480px;
-
-    color: rgba(247, 241, 231, 0.78);
+    color: rgba(247, 241, 231, 0.82);
 }
-
 
 /* -------------------------
    08. AREAS
 ------------------------- */
-
 #areas {
     background: var(--cream);
 }
@@ -731,28 +726,26 @@ section:not(#home) {
 }
 
 .area-card {
-    min-height: 210px;
+    position: relative;
+    overflow: hidden;
 
+    min-height: 210px;
     padding: 35px;
 
     display: flex;
     align-items: flex-end;
 
     background: var(--white);
-
     border: 1px solid var(--border);
 
-    position: relative;
-    overflow: hidden;
-
     transition:
-        transform 0.35s ease,
-        background 0.35s ease;
+        transform 0.35s var(--ease),
+        background 0.35s ease,
+        border-color 0.35s ease;
 }
 
 .area-card::before {
     content: "";
-
     position: absolute;
 
     width: 90px;
@@ -762,27 +755,17 @@ section:not(#home) {
     top: -20px;
 
     background: var(--green);
-
     border-radius: 50%;
-
-    opacity: 0.9;
 }
 
-.area-card:nth-child(2)::before {
-    background: var(--ochre);
-}
-
-.area-card:nth-child(3)::before {
-    background: var(--terracotta);
-}
-
-.area-card:nth-child(4)::before {
-    background: var(--teal);
-}
+.area-card:nth-child(4n + 2)::before { background: var(--ochre); }
+.area-card:nth-child(4n + 3)::before { background: var(--terracotta); }
+.area-card:nth-child(4n + 4)::before { background: var(--teal); }
 
 .area-card:hover {
     transform: translateY(-8px) rotate(-1deg);
     background: var(--brown);
+    border-color: var(--brown);
 }
 
 .area-card h3 {
@@ -799,11 +782,9 @@ section:not(#home) {
     color: var(--cream);
 }
 
-
 /* -------------------------
    09. ABOUT
 ------------------------- */
-
 #about {
     background: var(--white);
 }
@@ -822,26 +803,23 @@ section:not(#home) {
     margin-bottom: 30px;
 
     font-family: var(--serif);
-    font-size: clamp(3rem, 5vw, 5rem);
+    font-size: clamp(2.8rem, 5vw, 5rem);
     font-weight: 400;
 }
 
 .about-text p {
     max-width: 700px;
-
     margin-bottom: 20px;
-
     font-size: 1.05rem;
 }
 
 .about-highlight {
     position: sticky;
-    top: 120px;
+    top: calc(var(--header-height) + 38px);
 
     padding: 42px;
 
-    background: var(--green);
-
+    background: var(--green-dark); /* darker green = white text passes contrast */
     color: var(--white);
 
     transform: rotate(2deg);
@@ -851,13 +829,13 @@ section:not(#home) {
     content: "MEA";
 
     display: block;
-
     margin-bottom: 35px;
 
     font-family: var(--serif);
     font-size: 5rem;
+    line-height: 1;
 
-    color: rgba(255,255,255,0.22);
+    color: rgba(255, 255, 255, 0.22);
 }
 
 .about-highlight p {
@@ -868,11 +846,9 @@ section:not(#home) {
     line-height: 1.25;
 }
 
-
 /* -------------------------
    10. APPROACH
 ------------------------- */
-
 .approach-grid {
     width: min(100%, var(--max-width));
     margin: auto;
@@ -881,11 +857,13 @@ section:not(#home) {
     grid-template-columns: repeat(4, 1fr);
 
     border-top: 1px solid var(--border);
+    counter-reset: approach;
 }
 
 .approach-item {
-    padding: 38px 25px;
+    counter-increment: approach; /* was missing, so numbers never showed */
 
+    padding: 38px 25px;
     border-right: 1px solid var(--border);
 
     transition: background 0.3s ease;
@@ -899,6 +877,19 @@ section:not(#home) {
     background: var(--cream-dark);
 }
 
+.approach-item::before {
+    content: "0" counter(approach);
+
+    display: block;
+    margin-bottom: 22px;
+
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+
+    color: var(--terracotta);
+}
+
 .approach-item h3 {
     margin-bottom: 15px;
 
@@ -906,15 +897,9 @@ section:not(#home) {
     font-size: 1.8rem;
 }
 
-.approach-item::before {
-    content: "0" counter(approach);
-}
-
-
 /* -------------------------
    11. RESEARCH / INSIGHTS
 ------------------------- */
-
 #insights {
     background: var(--cream-dark);
 }
@@ -931,9 +916,8 @@ section:not(#home) {
 .research-card {
     position: relative;
 
-    padding: 35px;
-
     min-height: 330px;
+    padding: 35px;
 
     display: flex;
     flex-direction: column;
@@ -941,19 +925,17 @@ section:not(#home) {
 
     background: var(--white);
 
-    border: none;
-
     transition:
-        transform 0.4s ease,
+        transform 0.4s var(--ease),
         box-shadow 0.4s ease;
 }
 
-.research-card:nth-child(2) {
+.research-card:nth-child(3n + 2) {
     background: var(--terracotta);
 }
 
-.research-card:nth-child(3) {
-    background: var(--green);
+.research-card:nth-child(3n + 3) {
+    background: var(--green-dark);
 }
 
 .research-card:hover {
@@ -966,13 +948,6 @@ section:not(#home) {
 
     font-family: var(--serif);
     font-size: 2rem;
-}
-
-.research-card:nth-child(2) h3,
-.research-card:nth-child(2) p,
-.research-card:nth-child(3) h3,
-.research-card:nth-child(3) p {
-    color: var(--white);
 }
 
 .research-type {
@@ -991,9 +966,10 @@ section:not(#home) {
 }
 
 .research-tags span {
-    padding: 6px 10px;
+    padding: 6px 12px;
 
     background: var(--cream-dark);
+    color: var(--brown);
 
     font-size: 0.68rem;
     font-weight: 700;
@@ -1002,6 +978,7 @@ section:not(#home) {
 }
 
 .research-link {
+    display: inline-block;
     margin-top: 25px;
 
     font-size: 0.8rem;
@@ -1010,14 +987,38 @@ section:not(#home) {
     color: var(--terracotta);
 }
 
+/* Coloured cards: text, labels, tags and links were invisible on these before */
+.research-card:nth-child(3n + 2) h3,
+.research-card:nth-child(3n + 2) p,
+.research-card:nth-child(3n + 3) h3,
+.research-card:nth-child(3n + 3) p {
+    color: var(--white);
+}
+
+.research-card:nth-child(3n + 2) .research-type,
+.research-card:nth-child(3n + 2) .research-link,
+.research-card:nth-child(3n + 3) .research-type,
+.research-card:nth-child(3n + 3) .research-link {
+    color: var(--yellow);
+}
+
+.research-card:nth-child(3n + 2) .research-tags span,
+.research-card:nth-child(3n + 3) .research-tags span {
+    background: rgba(255, 253, 248, 0.18);
+    color: var(--white);
+}
+
+.research-link:hover {
+    text-decoration: underline;
+    text-underline-offset: 4px;
+}
+
 .insights-note {
     width: min(100%, var(--max-width));
     margin: 50px auto 0;
-
     padding: 30px;
 
     background: var(--brown);
-
     color: var(--cream);
 
     border-left: 10px solid var(--ochre);
@@ -1027,11 +1028,9 @@ section:not(#home) {
     color: var(--cream);
 }
 
-
 /* -------------------------
    12. FOUNDER
 ------------------------- */
-
 #founder {
     background: var(--white);
 }
@@ -1048,6 +1047,12 @@ section:not(#home) {
 
 .founder-image {
     position: relative;
+}
+
+.founder-image img {
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
 }
 
 .image-placeholder {
@@ -1084,7 +1089,7 @@ section:not(#home) {
     margin: 18px 0 25px;
 
     font-family: var(--serif);
-    font-size: clamp(3rem, 5vw, 5rem);
+    font-size: clamp(2.8rem, 5vw, 5rem);
     font-weight: 400;
 }
 
@@ -1101,18 +1106,17 @@ section:not(#home) {
 
     border-bottom: 2px solid var(--ochre);
 
-    transition: color 0.3s ease;
+    transition: color 0.3s ease, border-color 0.3s ease;
 }
 
 .founder-link:hover {
     color: var(--green-dark);
+    border-color: var(--green-dark);
 }
-
 
 /* -------------------------
    13. CONTACT
 ------------------------- */
-
 #contact {
     background: var(--terracotta);
     color: var(--white);
@@ -1140,7 +1144,7 @@ section:not(#home) {
     margin-top: 20px;
 
     font-family: var(--serif);
-    font-size: clamp(3.5rem, 6vw, 6rem);
+    font-size: clamp(3rem, 6vw, 6rem);
     font-weight: 400;
 }
 
@@ -1152,12 +1156,25 @@ section:not(#home) {
     margin-bottom: 10px;
 }
 
+.contact-details a {
+    border-bottom: 1px solid rgba(255, 253, 248, 0.45);
+    transition: border-color 0.3s ease;
+}
+
+.contact-details a:hover {
+    border-color: var(--yellow);
+}
+
 #contact-form {
     padding: 45px;
 
     background: var(--cream);
-
     color: var(--brown);
+}
+
+/* paragraphs inside the form shouldn't inherit the white contact text */
+#contact-form p {
+    color: var(--brown-soft);
 }
 
 .form-group {
@@ -1166,8 +1183,7 @@ section:not(#home) {
 
 .form-group label {
     display: block;
-
-    margin-bottom: 8px;
+    margin-bottom: 4px;
 
     font-size: 0.75rem;
     font-weight: 700;
@@ -1179,25 +1195,40 @@ section:not(#home) {
 .form-group textarea,
 .form-group select {
     width: 100%;
-
-    padding: 15px 0;
+    padding: 12px 0;
 
     background: transparent;
-
     border: none;
     border-bottom: 2px solid var(--brown);
+    border-radius: 0;
 
     color: var(--brown);
-
     outline: none;
 
-    transition: border-color 0.3s ease;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-group select {
+    appearance: none;
+    -webkit-appearance: none;
+    cursor: pointer;
+    padding-right: 28px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5l5 5 5-5' fill='none' stroke='%233B2922' stroke-width='2'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 4px center;
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+    color: var(--brown-light);
+    opacity: 0.6;
 }
 
 .form-group input:focus,
 .form-group textarea:focus,
 .form-group select:focus {
     border-color: var(--terracotta);
+    box-shadow: 0 2px 0 var(--terracotta);
 }
 
 .form-group textarea {
@@ -1205,17 +1236,15 @@ section:not(#home) {
     resize: vertical;
 }
 
-
 /* -------------------------
    14. PROJECT PAGES
 ------------------------- */
-
 .project-page {
     background: var(--cream);
 }
 
 .project-header {
-    padding: 100px 24px 60px;
+    padding: 100px var(--gutter) 60px;
 
     background: var(--brown);
     color: var(--cream);
@@ -1226,15 +1255,16 @@ section:not(#home) {
     margin: auto;
 
     font-family: var(--serif);
-    font-size: clamp(3.5rem, 7vw, 7rem);
+    font-size: clamp(2.8rem, 7vw, 7rem);
     font-weight: 400;
 
     color: var(--cream);
 }
 
+/* side gutters added so text never touches the screen edge on mobile */
 .project-intro,
 .project-details {
-    width: min(100%, var(--max-width));
+    width: min(100% - (var(--gutter) * 2), var(--max-width));
     margin: auto;
 }
 
@@ -1244,27 +1274,33 @@ section:not(#home) {
 
 .project-intro p {
     max-width: 800px;
-
-    font-size: 1.2rem;
+    font-size: clamp(1.05rem, 2vw, 1.2rem);
 }
 
 .project-details {
     display: grid;
     grid-template-columns: 0.7fr 1.3fr;
     gap: 70px;
+    padding-bottom: 100px;
 }
 
 .project-sidebar {
+    position: sticky;
+    top: calc(var(--header-height) + 24px);
+    align-self: start;
+
     padding: 30px;
 
-    background: var(--green);
+    background: var(--green-dark);
     color: var(--white);
-
-    height: fit-content;
 }
 
 .project-info {
     margin-bottom: 25px;
+}
+
+.project-info:last-child {
+    margin-bottom: 0;
 }
 
 .project-info h4 {
@@ -1285,11 +1321,12 @@ section:not(#home) {
     margin-bottom: 20px;
 
     font-family: var(--serif);
-    font-size: 2.8rem;
+    font-size: clamp(2rem, 4vw, 2.8rem);
 }
 
 .project-content p {
     margin-bottom: 20px;
+    max-width: 70ch;
 }
 
 .project-image {
@@ -1303,7 +1340,7 @@ section:not(#home) {
 .image-caption {
     margin-top: 10px;
 
-    font-size: 0.7rem;
+    font-size: 0.75rem;
     color: var(--brown-light);
 }
 
@@ -1312,7 +1349,6 @@ section:not(#home) {
     padding: 35px;
 
     background: var(--cream-dark);
-
     border-left: 8px solid var(--ochre);
 }
 
@@ -1322,6 +1358,7 @@ section:not(#home) {
 
 .university-logo img {
     max-width: 150px;
+    height: auto;
 }
 
 .project-team {
@@ -1339,20 +1376,16 @@ section:not(#home) {
     padding: 20px;
 
     background: var(--white);
-
     border-left: 4px solid var(--terracotta);
 }
-
 
 /* -------------------------
    15. FOOTER
 ------------------------- */
-
 footer {
-    padding: 65px 24px;
+    padding: 65px var(--gutter);
 
     background: var(--brown);
-
     color: var(--cream);
 }
 
@@ -1363,39 +1396,45 @@ footer > * {
 }
 
 footer p {
-    color: rgba(247, 241, 231, 0.65);
+    color: rgba(247, 241, 231, 0.7);
 }
 
+footer a {
+    transition: color 0.3s ease;
+}
+
+footer a:hover {
+    color: var(--ochre);
+}
 
 /* -------------------------
    16. ANIMATIONS
 ------------------------- */
-
 @keyframes ticker {
-    from {
-        transform: translateX(0);
-    }
-
-    to {
-        transform: translateX(-50%);
-    }
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
 }
 
 @keyframes gentleFloat {
-    0%,
-    100% {
-        transform: rotate(-10deg) translateY(0);
-    }
-
-    50% {
-        transform: rotate(-7deg) translateY(-10px);
-    }
+    0%, 100% { transform: rotate(-10deg) translateY(0); }
+    50%      { transform: rotate(-7deg) translateY(-10px); }
 }
-
 
 /* -------------------------
    17. SCROLL REVEAL
+   Uses the separate `translate` property so it doesn't
+   override the `transform` used by hover effects.
 ------------------------- */
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        translate: 0 25px;
+    }
+    to {
+        opacity: 1;
+        translate: 0 0;
+    }
+}
 
 .service-card,
 .area-card,
@@ -1403,28 +1442,33 @@ footer p {
 .approach-item,
 .about-container,
 .founder-container {
-    animation: fadeUp 0.8s ease both;
+    animation: fadeUp 0.8s var(--ease) both;
 }
 
-@keyframes fadeUp {
-    from {
-        opacity: 0;
-        transform: translateY(25px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
+/* Where supported, reveal as each element scrolls into view */
+@supports (animation-timeline: view()) {
+    .service-card,
+    .area-card,
+    .research-card,
+    .approach-item,
+    .about-container,
+    .founder-container {
+        animation: fadeUp linear both;
+        animation-timeline: view();
+        animation-range: entry 0% entry 35%;
     }
 }
-
 
 /* -------------------------
    18. RESPONSIVE
 ------------------------- */
+@media (max-width: 1100px) {
+    nav ul {
+        gap: 22px;
+    }
+}
 
 @media (max-width: 1000px) {
-
     #home {
         grid-template-columns: 1fr;
         gap: 50px;
@@ -1437,6 +1481,7 @@ footer p {
 
     .hero-visual {
         min-height: auto;
+        padding-inline: 30px;
     }
 
     .hero-image-wrap {
@@ -1458,41 +1503,60 @@ footer p {
         grid-template-columns: repeat(2, 1fr);
     }
 
-    .approach-item:nth-child(2) {
+    .approach-item:nth-child(2n) {
         border-right: none;
     }
 
-    .approach-item:nth-child(-n+2) {
+    .approach-item:nth-child(-n + 2) {
         border-bottom: 1px solid var(--border);
     }
 
-    .research-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
+    .research-grid,
     .areas-grid {
         grid-template-columns: repeat(2, 1fr);
     }
 
     .project-details {
         grid-template-columns: 1fr;
+        gap: 50px;
     }
-}
 
+    .project-sidebar {
+        position: static;
+    }
 
-@media (max-width: 760px) {
-
+    /* nav: scrolls sideways instead of overflowing */
     nav {
-        width: min(100% - 30px, var(--max-width));
-        min-height: 70px;
+        gap: 20px;
     }
 
     nav ul {
-        gap: 15px;
+        overflow-x: auto;
+        scrollbar-width: none;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    nav ul::-webkit-scrollbar {
+        display: none;
+    }
+}
+
+@media (max-width: 760px) {
+    :root {
+        --header-height: 70px;
+        --gutter: 18px;
+    }
+
+    nav {
+        width: min(100% - 30px, var(--max-width));
+    }
+
+    nav ul {
+        gap: 18px;
     }
 
     nav ul li a {
-        font-size: 0.72rem;
+        font-size: 0.75rem;
     }
 
     #home {
@@ -1501,7 +1565,7 @@ footer p {
     }
 
     #home h2 {
-        font-size: clamp(3.5rem, 14vw, 6rem);
+        font-size: clamp(3.2rem, 14vw, 5.5rem);
     }
 
     .hero-visual {
@@ -1509,7 +1573,7 @@ footer p {
     }
 
     .hero-stamp {
-        left: -15px;
+        left: -5px;
         bottom: 50px;
 
         width: 100px;
@@ -1517,11 +1581,15 @@ footer p {
     }
 
     .hero-accent-green {
-        left: -15px;
+        left: -5px;
     }
 
     section:not(#home) {
-        padding: 80px 18px;
+        padding: 80px var(--gutter);
+    }
+
+    .section-heading {
+        margin-bottom: 45px;
     }
 
     .services-grid,
@@ -1532,6 +1600,7 @@ footer p {
 
     .service-card {
         min-height: 240px;
+        padding-right: 80px;
     }
 
     .contact-container {
@@ -1541,29 +1610,28 @@ footer p {
     #contact-form {
         padding: 30px 22px;
     }
+
+    .about-highlight {
+        transform: rotate(1deg);
+        padding: 32px;
+    }
 }
 
-
 @media (max-width: 500px) {
-
     nav {
         flex-direction: column;
         align-items: flex-start;
-        padding: 18px 0;
+        gap: 6px;
+        padding: 14px 0 10px;
     }
 
     nav ul {
         width: 100%;
-        overflow-x: auto;
         padding-bottom: 5px;
     }
 
     #home {
         padding-top: 45px;
-    }
-
-    #home h2 {
-        font-size: 3.5rem;
     }
 
     #home p {
@@ -1583,6 +1651,7 @@ footer p {
 
     .hero-visual {
         min-height: 400px;
+        padding-inline: 20px;
     }
 
     .hero-image-wrap {
@@ -1597,20 +1666,16 @@ footer p {
     .hero-stamp {
         width: 80px;
         height: 80px;
-
         font-size: 0.55rem;
     }
 
-    .section-heading h2 {
-        font-size: 3.2rem;
-    }
-
     .service-card {
-        padding: 30px 25px;
+        padding: 30px 70px 30px 25px;
     }
 
-    .service-card h3 {
-        font-size: 2rem;
+    .area-card,
+    .research-card {
+        padding: 28px;
     }
 
     .approach-grid {
@@ -1625,21 +1690,39 @@ footer p {
     .founder-image .image-placeholder {
         min-height: 380px;
     }
-}
 
+    .project-header {
+        padding-top: 70px;
+    }
+}
 
 /* -------------------------
    19. REDUCED MOTION
 ------------------------- */
-
 @media (prefers-reduced-motion: reduce) {
-
     *,
     *::before,
     *::after {
         scroll-behavior: auto !important;
         animation-duration: 0.01ms !important;
         animation-iteration-count: 1 !important;
+        animation-delay: 0s !important;
         transition-duration: 0.01ms !important;
+    }
+}
+
+/* -------------------------
+   20. PRINT
+------------------------- */
+@media print {
+    header,
+    .hero-ticker,
+    .hero-stamp,
+    #contact-form {
+        display: none !important;
+    }
+
+    body {
+        background: #fff;
     }
 }
