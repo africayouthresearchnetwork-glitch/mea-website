@@ -284,6 +284,7 @@ nav ul li a.active::after {
     }
 
     nav {
+        position: relative;
         width: min(100% - 32px, var(--max-width));
     }
 
@@ -291,64 +292,76 @@ nav ul li a.active::after {
         width: 105px;
     }
 
-    nav ul {
-        display: none;
+    /* Hamburger button */
+    .menu-toggle {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        width: 42px;
+        height: 42px;
+        padding: 0;
+
+        border: 1px solid var(--brown);
+        border-radius: 50%;
+
+        background: var(--cream);
+        color: var(--brown);
+
+        font-family: Arial, sans-serif;
+        font-size: 1.25rem;
+        line-height: 1;
+
+        cursor: pointer;
+        z-index: 1002;
     }
 
-    nav {
-    position: relative;
-}
+    /* Mobile menu */
+    nav ul {
+        display: none;
 
-.menu-toggle {
-    display: block;
-    border: none;
-    background: none;
-    color: var(--brown);
-    font-size: 1.5rem;
-    line-height: 1;
-    cursor: pointer;
-    padding: 8px;
-}
+        position: absolute;
+        top: 100%;
+        left: -16px;
+        right: -16px;
 
-nav ul {
-    display: none;
-    position: absolute;
-    top: calc(100% + 1px);
-    left: 0;
-    right: 0;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0;
 
-    flex-direction: column;
-    align-items: stretch;
-    gap: 0;
+        padding: 10px 24px 18px;
+        margin: 0;
 
-    padding: 12px 24px 20px;
-    margin: 0;
+        background: var(--cream);
+        border-bottom: 1px solid var(--border);
+        box-shadow: 0 12px 25px rgba(59, 41, 34, 0.12);
 
-    background: var(--cream);
-    border-bottom: 1px solid var(--border);
-    box-shadow: 0 12px 30px rgba(59, 41, 34, 0.12);
-}
+        z-index: 1001;
+    }
 
-nav.menu-open ul {
-    display: flex;
-}
+    nav.menu-open ul {
+        display: flex;
+    }
 
-nav ul li {
-    width: 100%;
-}
+    nav ul li {
+        width: 100%;
+    }
 
-nav ul li a {
-    display: block;
-    padding: 15px 4px;
+    nav ul li a {
+        display: block;
+        width: 100%;
 
-    font-size: 0.85rem;
-    color: var(--brown);
-    border-bottom: 1px solid rgba(59, 41, 34, 0.12);
-}
+        padding: 14px 0;
 
-nav ul li:last-child a {
-    border-bottom: none;
-}
+        font-size: 0.85rem;
+        color: var(--brown);
+
+        border-bottom: 1px solid rgba(59, 41, 34, 0.12);
+    }
+
+    nav ul li:last-child a {
+        border-bottom: none;
+    }
 
 }
 
