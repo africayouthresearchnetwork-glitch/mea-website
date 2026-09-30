@@ -294,27 +294,28 @@ nav ul li a.active::after {
 
     /* Hamburger button */
     .menu-toggle {
-        display: flex;
-        align-items: center;
-        justify-content: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-        width: 42px;
-        height: 42px;
-        padding: 0;
+    width: 46px;
+    height: 46px;
+    padding: 0;
 
-        border: 1px solid var(--brown);
-        border-radius: 50%;
+    border: 2px solid var(--brown);
+    border-radius: 50%;
 
-        background: var(--cream);
-        color: var(--brown);
+    background: var(--cream);
+    color: var(--brown);
 
-        font-family: Arial, sans-serif;
-        font-size: 1.25rem;
-        line-height: 1;
+    font-family: Arial, sans-serif;
+    font-size: 1.45rem;
+    font-weight: 700;
+    line-height: 1;
 
-        cursor: pointer;
-        z-index: 1002;
-    }
+    cursor: pointer;
+    z-index: 1002;
+}
 
     /* Mobile menu */
     nav ul {
