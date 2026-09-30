@@ -1,35 +1,22 @@
 document.addEventListener("DOMContentLoaded", () => {
-
+    const nav = document.querySelector("header nav");
     const menuToggle = document.querySelector(".menu-toggle");
-    const nav = document.querySelector("nav");
-    const navLinks = document.querySelectorAll("nav ul li a");
+    const navLinks = document.querySelectorAll("nav ul a");
 
-    if (!menuToggle || !nav) return;
+    if (!nav || !menuToggle) return;
 
     menuToggle.addEventListener("click", () => {
-        nav.classList.toggle("menu-open");
+        const isOpen = nav.classList.toggle("menu-open");
 
-        const isOpen = nav.classList.contains("menu-open");
-
-        menuToggle.setAttribute(
-            "aria-label",
-            isOpen ? "Close navigation" : "Open navigation"
-        );
-
-        menuToggle.textContent = isOpen ? "✕" : "☰";
+        menuToggle.setAttribute("aria-label", isOpen ? "Close navigation" : "Open navigation");
+        menuToggle.setAttribute("aria-expanded", isOpen);
     });
 
     navLinks.forEach(link => {
         link.addEventListener("click", () => {
             nav.classList.remove("menu-open");
-
-            menuToggle.setAttribute(
-                "aria-label",
-                "Open navigation"
-            );
-
-            menuToggle.textContent = "☰";
+            menuToggle.setAttribute("aria-label", "Open navigation");
+            menuToggle.setAttribute("aria-expanded", "false");
         });
     });
-
 });

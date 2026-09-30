@@ -277,6 +277,12 @@ nav ul li a.active::after {
 
 
 /* Mobile */
+/* Mobile menu button — hidden on desktop */
+
+.menu-toggle {
+    display: none;
+}
+
 @media (max-width: 760px) {
 
     :root {
