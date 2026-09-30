@@ -41,6 +41,7 @@
 
     --max-width: 1240px;
     --header-height: 82px;
+    --hero-bg: url('images/hero-bg.jpg'); /* <- change this path to your picture */
     --gutter: 24px;
     --ease: cubic-bezier(.2, .7, .2, 1);
 }
@@ -248,6 +249,7 @@ nav ul li a.active::after {
 ------------------------- */
 #home {
     position: relative;
+    isolation: isolate; /* keeps the background layer behind the hero content */
     min-height: calc(100vh - var(--header-height));
     min-height: calc(100svh - var(--header-height));
 
@@ -572,6 +574,72 @@ nav ul li a.active::after {
 
 .hero-ticker span:nth-child(4n) {
     color: #A9BB64; /* lighter green so it reads on dark brown */
+}
+
+/* -------------------------
+   05b. HERO BACKGROUND IMAGE
+   Full-width picture behind the whole hero. On desktop it stays fixed
+   while the page scrolls over it (parallax); on touch devices it scrolls normally.
+------------------------- */
+#home::after {
+    content: "";
+    position: absolute;
+    z-index: -1;
+
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    width: 100vw;
+    transform: translateX(-50%);
+
+    background:
+        linear-gradient(
+            90deg,
+            rgba(43, 28, 22, 0.90) 0%,
+            rgba(43, 28, 22, 0.75) 55%,
+            rgba(43, 28, 22, 0.55) 100%
+        ),
+        var(--hero-bg) center / cover no-repeat;
+    background-attachment: scroll, fixed;
+}
+
+/* Light text on the darkened picture */
+#home .eyebrow {
+    color: var(--yellow);
+}
+
+#home h2 {
+    color: var(--cream);
+}
+
+#home h2 span {
+    color: var(--ochre);
+}
+
+#home p {
+    color: rgba(247, 241, 231, 0.88);
+}
+
+#home .secondary-button {
+    color: var(--cream);
+    border-color: var(--cream);
+}
+
+#home .secondary-button:hover {
+    color: var(--brown);
+    background: var(--ochre);
+    border-color: var(--ochre);
+}
+
+#home :focus-visible {
+    outline-color: var(--yellow);
+}
+
+/* Fixed backgrounds are janky on phones/tablets, so let it scroll there */
+@media (max-width: 1000px), (hover: none) {
+    #home::after {
+        background-attachment: scroll, scroll;
+    }
 }
 
 /* -------------------------
