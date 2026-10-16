@@ -163,10 +163,8 @@ p {
 }
 
 /* -------------------------
-   04. HEADER
-------------------------- */
-
-:root {
+    02. RESET & BASE
+    ------------------------- */
     --header-height: 66px;
 }
 
@@ -1873,6 +1871,19 @@ section:not(#home) {
     color: var(--cream);
 }
 
+.project-attribution {
+    width: min(100%, var(--max-width));
+    margin: 30px auto 0;
+
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: rgba(247, 241, 231, 0.8);
+}
+
+.project-attribution strong {
+    color: var(--ochre);
+}
+
 /* side gutters added so text never touches the screen edge on mobile */
 .project-intro,
 .project-details {
@@ -1941,6 +1952,16 @@ section:not(#home) {
     max-width: 70ch;
 }
 
+.project-content ul.bullet-list {
+    margin: 0 0 25px 25px;
+}
+
+.project-content ul.bullet-list li {
+    margin-bottom: 12px;
+    line-height: 1.7;
+    color: var(--brown-soft);
+}
+
 .project-image {
     margin: 45px 0;
 }
@@ -1992,8 +2013,54 @@ section:not(#home) {
 }
 
 /* -------------------------
-   15. FOOTER
-------------------------- */
+    15. FOOTER
+    ------------------------- */
+.container {
+    width: min(100% - 48px, var(--max-width));
+    margin: 0 auto;
+}
+
+/* Buttons used on about.html */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+
+    min-height: 52px;
+    padding: 0 28px;
+
+    border-radius: 999px;
+
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    line-height: 1;
+    text-align: center;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.3s var(--ease),
+        background 0.3s ease,
+        border-color 0.3s ease,
+        color 0.3s ease,
+        box-shadow 0.3s ease;
+}
+
+.btn-primary {
+    background: var(--terracotta);
+    color: var(--white);
+    border: 2px solid var(--terracotta);
+}
+
+.btn-primary:hover {
+    background: var(--brown);
+    border-color: var(--brown);
+    transform: translateY(-4px);
+    box-shadow: 0 14px 30px rgba(59, 41, 34, 0.18);
+}
+
 footer {
     padding: 65px var(--gutter);
 
@@ -2340,8 +2407,8 @@ footer a:hover {
 }
 
 /* =========================================================
-   ABOUT — HERO
-   ========================================================= */
+    ABOUT — HERO
+    ========================================================= */
 
 .page-hero {
     position: relative;
@@ -2354,8 +2421,6 @@ footer a:hover {
     background: var(--cream);
     overflow: hidden;
 }
-
-/* Large editorial shape */
 .page-hero::before {
     content: "";
     position: absolute;
@@ -2456,15 +2521,6 @@ footer a:hover {
     line-height: 1;
     letter-spacing: -0.035em;
     color: var(--brown);
-}
-
-.eyebrow {
-    display: inline-block;
-    font-size: 0.72rem;
-    font-weight: 800;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    color: var(--terracotta);
 }
 
 .about-page-copy {
@@ -2654,58 +2710,6 @@ footer a:hover {
 
     .about-page-cta {
         padding: 80px 0;
-    }
-
 }
- /* =========================================================
-    COMPACT HEADER — ALL PAGES
-    ========================================================= */
-
-header {
-    height: 68px !important;
-    min-height: 68px !important;
-    padding: 0 !important;
-}
-
-header nav {
-    height: 68px !important;
-    min-height: 68px !important;
-    padding: 0 !important;
-}
-
-header .logo-link img {
-    width: 110px !important;
-    max-height: 45px;
-    object-fit: contain;
-}
-
-header nav ul {
-    gap: 22px !important;
-    margin: 0 !important;
-    padding: 0 !important;
-}
-
-header nav ul li a {
-    padding: 4px 0 !important;
-    font-size: 0.76rem !important;
-}
-
-
-/* Mobile */
-@media (max-width: 760px) {
-
-    header {
-        height: 62px !important;
-        min-height: 62px !important;
-    }
-
-    header nav {
-        height: 62px !important;
-        min-height: 62px !important;
-    }
-
-    header .logo-link img {
-        width: 100px !important;
-    }
 
 }
